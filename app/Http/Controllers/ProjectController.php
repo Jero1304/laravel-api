@@ -22,15 +22,15 @@ class ProjectController extends Controller
         $trashed = $request->input('trashed');
 
         if ($trashed) {
-            $projects = Project::onlyTrashed()->get();
-        } else {            
-            $projects = Project::all();
+            $projects = Project::onlyTrashed()->with('technologies', 'type')->get();
+        } else {
+            $projects = Project::with('technologies', 'type')->get();
         }
 
         $num_trashed = Project::onlyTrashed()->count();
 
 
-        return view('projects.index', compact('projects','num_trashed'));
+        return view('projects.index', compact('projects', 'num_trashed'));
     }
 
     /**
